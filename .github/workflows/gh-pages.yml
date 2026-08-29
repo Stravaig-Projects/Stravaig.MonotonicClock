@@ -1,5 +1,4 @@
-# Sample workflow for building and deploying a Jekyll site to GitHub Pages
-name: Deploy Docs to GitHubPages
+name: Deploy Monotonic Clock Docs to GitHub Pages
 
 on:
   # Runs on pushes targeting the default branch

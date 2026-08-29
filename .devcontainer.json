@@ -1,7 +1,7 @@
 // For format details, see https://aka.ms/devcontainer.json. For config options, see the
 // README at: https://github.com/devcontainers/templates/tree/main/src/jekyll
 {
-	"name": "Stravaig Docs (Jekyll)",
+	"name": "Stravaig Monotonic Clock Docs (Jekyll)",
 	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
 	"image": "mcr.microsoft.com/devcontainers/jekyll:1-bullseye",
 	"customizations": {
@@ -13,8 +13,8 @@
 		}
 	},
 	"portsAttributes": {
-		"4002": {
-			"label": "scd-jekyll-server"
+		"4003": {
+			"label": "monotonic-clock-jekyll-server"
 		}
 	},
 
@@ -35,7 +35,7 @@
 	// "remoteUser": "root"
 
 	"remoteEnv": {
-		"JEKYLL_PORT": "4002",
-		"REPO_NAME": "Stravaig-template"
+		"JEKYLL_PORT": "4003",
+		"REPO_NAME": "Stravaig.MonotonicClock"
 	}
 }

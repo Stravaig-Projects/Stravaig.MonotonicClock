@@ -1,4 +1,4 @@
-name: Stravaig PROJECT NAME HERE
+name: Stravaig Monotonic Clock
 on: 
   push:
     branches: 
@@ -29,9 +29,9 @@ jobs:
     name: Build, Test, and Release
     runs-on: ubuntu-latest
     env:
-      STRAVAIG_SOLUTION: src/XXXX.sln
-      STRAVAIG_TESTS: XXXX.Tests
-      STRAVAIG_PROJECT: XXXX
+      STRAVAIG_SOLUTION: src/Stravaig.MonotonicClock.sln
+      STRAVAIG_TESTS: Stravaig.MonotonicClock.Tests
+      STRAVAIG_PROJECT: Stravaig.MonotonicClock
     
     steps:
       - name: Set Time Zone to Europe/London
@@ -62,7 +62,7 @@ jobs:
           echo "Package version: $STRAVAIG_PACKAGE_VERSION"
           echo "Version Suffix: $STRAVAIG_PACKAGE_VERSION_SUFFIX"
           echo "Stable Version: $STRAVAIG_STABLE_VERSION"
-          ecbo "Preview Version: $STRAVAIG_PREVIEW_VERSION"
+          echo "Preview Version: $STRAVAIG_PREVIEW_VERSION"
           echo "Preview Assembly Version: $STRAVAIG_PREVIEW_ASSEMBLY_VERSION"
           echo "Assembly Version: $STRAVAIG_ASSEMBLY_VERSION"
 

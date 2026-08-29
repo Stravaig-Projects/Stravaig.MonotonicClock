@@ -1,9 +1,11 @@
 ---
 layout: default
-title: TODO - Update this page title
+title: Stravaig Monotonic Clock
 ---
 
-# Documentation
+# Stravaig Monotonic Clock
+
+A monotonic clock abstraction for elapsed-time measurement.
 
 * [link](docs/index.md)
 

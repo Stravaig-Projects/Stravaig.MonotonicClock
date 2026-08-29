@@ -6,9 +6,8 @@ plugins:
 exclude:
   - scripts
 
-# UPDATE ME IN A NEW REPOSITORY
-title: Stravaig Template
-description: The Stravaig Template
+title: Stravaig Monotonic Clock
+description: A monotonic clock abstraction for elapsed-time measurement.
 
 kramdown:
     highlighter: rouge
@@ -16,13 +15,9 @@ kramdown:
         block:
             line_numbers: true
 
-# UPDATE ME IN A NEW REPOSITORY
 github:
-  repository_url: https://github.com/Stravaig-Projects/stravaig-template
+  repository_url: https://github.com/Stravaig-Projects/Stravaig.MonotonicClock
 
-# UPDATE ME IN A NEW REPOSITORY
 nuget:
   urls:
-    - https://www.nuget.org/packages/Stravaig.Package1
-    - https://www.nuget.org/packages/Stravaig.Package2
-    - https://www.nuget.org/packages/Stravaig.Package3.etc
+    - https://www.nuget.org/packages/Stravaig.MonotonicClock
