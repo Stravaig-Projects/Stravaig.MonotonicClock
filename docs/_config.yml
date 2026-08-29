@@ -1,0 +1,28 @@
+remote_theme: Stravaig-Projects/stravaig-theme
+plugins:
+  - jekyll-remote-theme 
+  - jekyll-relative-links
+
+exclude:
+  - scripts
+
+# UPDATE ME IN A NEW REPOSITORY
+title: Stravaig Template
+description: The Stravaig Template
+
+kramdown:
+    highlighter: rouge
+    syntax_highlighter_opts:
+        block:
+            line_numbers: true
+
+# UPDATE ME IN A NEW REPOSITORY
+github:
+  repository_url: https://github.com/Stravaig-Projects/stravaig-template
+
+# UPDATE ME IN A NEW REPOSITORY
+nuget:
+  urls:
+    - https://www.nuget.org/packages/Stravaig.Package1
+    - https://www.nuget.org/packages/Stravaig.Package2
+    - https://www.nuget.org/packages/Stravaig.Package3.etc
