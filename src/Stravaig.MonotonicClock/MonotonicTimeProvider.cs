@@ -18,7 +18,7 @@ namespace Stravaig.MonotonicClock;
 /// the previously issued value advanced by the configured resolution. When the underlying
 /// clock has genuinely moved on, the real reading is used; when it has stalled or slipped
 /// backwards, the value is synthesised so that the sequence remains strictly increasing.
-/// The trade off is that a timestamp is not always a faithful reading of the underlying
+/// The trade-off is that a timestamp is not always a faithful reading of the underlying
 /// clock, but it is always a strictly increasing ordering key that closely tracks it.
 /// </para>
 /// <para>
@@ -43,7 +43,11 @@ public class MonotonicTimeProvider : TimeProvider
 
     private readonly TimeProvider _innerTimeProvider;
     private readonly long _resolutionTicks;
+#if NET9_0_OR_GREATER
+    private readonly Lock _syncLock = new();
+#else
     private readonly object _syncLock = new();
+#endif
 
     private long _lastUtcTicks;
 
