@@ -105,6 +105,15 @@ dotnet_naming_rule.constant_fields_should_be_pascal_case.style = pascal_case_sty
 dotnet_naming_symbols.constant_fields.applicable_kinds = field
 dotnet_naming_symbols.constant_fields.applicable_accessibilities = *
 dotnet_naming_symbols.constant_fields.required_modifiers = const
+# Require _camelCase for private (non-const) instance and static fields
+dotnet_naming_style.underscore_camel_case_style.capitalization = camel_case
+dotnet_naming_style.underscore_camel_case_style.required_prefix = _
+dotnet_naming_rule.private_fields_should_be_underscore_camel_case.severity = warning
+dotnet_naming_rule.private_fields_should_be_underscore_camel_case.symbols = private_fields
+dotnet_naming_rule.private_fields_should_be_underscore_camel_case.style = underscore_camel_case_style
+dotnet_naming_symbols.private_fields.applicable_kinds = field
+dotnet_naming_symbols.private_fields.applicable_accessibilities = private, private_protected
+dotnet_naming_symbols.private_fields.required_modifiers =
 dotnet_style_operator_placement_when_wrapping = beginning_of_line
 tab_width = 4
 end_of_line = crlf
@@ -144,6 +153,15 @@ dotnet_diagnostic.ide0019.severity = suggestion
 dotnet_diagnostic.ide0020.severity = suggestion
 dotnet_diagnostic.ide0038.severity = suggestion
 dotnet_diagnostic.ide0044.severity = warning
+
+# StyleCop naming/qualification overrides
+# SA1101: do NOT require the "this." prefix on member access
+dotnet_diagnostic.sa1101.severity = none
+# SA1309: turn off "fields must not begin with underscore"
+dotnet_diagnostic.sa1309.severity = none
+# SX1309/SX1309S: instead REQUIRE the underscore prefix on instance and static fields
+dotnet_diagnostic.sx1309.severity = warning
+dotnet_diagnostic.sx1309s.severity = warning
 
 ###############################
 # C# Coding Conventions       #

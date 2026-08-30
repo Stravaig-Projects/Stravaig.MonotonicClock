@@ -7,6 +7,10 @@
 
     <IsPackable>false</IsPackable>
     <IsTestProject>true</IsTestProject>
+
+    <!-- CA1707: test names use underscores to separate subject, scenario, and expectation.
+         SA0001: XML comment analysis needs a documentation file, which tests do not produce. -->
+    <NoWarn>$(NoWarn);CA1707;SA0001</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
