@@ -16,7 +16,11 @@ function Assert-FileWritten([string]$path, [int]$errorExitCode)
     }
 }
 
-$fullVersion = $Env:STRAVAIG_PACKAGE_FULL_VERSION
+$fullVersion = $Env:STRAVAIG_PACKAGE_VERSION
+if ([string]::IsNullOrEmpty($fullVersion)){
+    Write-Error "The Environment variable STRAVAIG_PACKAGE_FULL_VERSION is not set."
+    Exit -1;
+}
 
 $currentReleaseNotes = Get-Content "$PSScriptRoot/release-notes/wip-release-notes.md";
 $releaseTimestamp = (Get-Date).ToString("dddd, d MMMM, yyyy 'at' HH:mm:ss zzzz");

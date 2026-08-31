@@ -1,4 +1,4 @@
-name: Stravaig Test Capture Logger V4
+name: Stravaig Monotonic Clock
 on:
   push:
     branches:
@@ -11,6 +11,8 @@ on:
       - '.gitignore'
       - 'contributors.md'
       - 'release-notes/**'
+      - '.github/PULL_REQUEST_TEMPLATE/**'
+      - 'src/.idea/**'
 
   pull_request:
     types: [assigned, opened, synchronize, reopened]
@@ -49,9 +51,6 @@ jobs:
           echo
           echo "Key vars:"
           echo "GITHUB_SHA: $GITHUB_SHA" 
-          echo "Solution: $STRAVAIG_SOLUTION"
-          echo "Project: $STRAVAIG_PROJECT"
-          echo "Tests: $STRAVAIG_TESTS"
           echo "Package version: $STRAVAIG_PACKAGE_VERSION"
           echo "Version Suffix: $STRAVAIG_PACKAGE_VERSION_SUFFIX"
           echo "Stable Version: $STRAVAIG_STABLE_VERSION"
