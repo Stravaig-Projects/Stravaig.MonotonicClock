@@ -3,18 +3,14 @@
     <PropertyGroup>
         <Title>Stravaig Monotonic Clock - Dependency Injection</Title>
         <PackageTags>clock time monotonic dependency-injection di</PackageTags>
-        <ImplicitUsings>enable</ImplicitUsings>
+        <ImplicitUsings>disable</ImplicitUsings>
         <Description>Dependency injection extensions for registering the Stravaig monotonic clock as a TimeProvider.
 
-    Built on $(StravaigBuildTime).
-    Build run details at: $(StravaigWorkflowUrl)
-    Release notes at: $(StravaigReleaseNotes)
-    </Description>
+Built on $(StravaigBuildTime).
+Build run details at: $(StravaigWorkflowUrl)
+Release notes at: $(StravaigReleaseNotes)
+      </Description>
     </PropertyGroup>
-
-    <ItemGroup>
-      <None Include="..\Stravaig.MonotonicClock\stravaig-icon.png" Pack="true" PackagePath="/" />
-    </ItemGroup>
 
     <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0' Or '$(TargetFramework)' == 'net8.0'">
       <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.2" />
