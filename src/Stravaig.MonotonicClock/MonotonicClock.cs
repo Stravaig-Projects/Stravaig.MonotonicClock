@@ -8,12 +8,14 @@ namespace Stravaig.MonotonicClock;
 public static class MonotonicClock
 {
     /// <summary>
-    /// Gets the current local date and time.
+    /// Gets the current local date and time, with <see cref="DateTime.Kind"/> set to
+    /// <see cref="DateTimeKind.Local"/>.
     /// </summary>
-    public static DateTime Now => MonotonicClockOffset.Now.DateTime;
+    public static DateTime Now => MonotonicClockOffset.Now.LocalDateTime;
 
     /// <summary>
-    /// Gets the current UTC date and time.
+    /// Gets the current UTC date and time, with <see cref="DateTime.Kind"/> set to
+    /// <see cref="DateTimeKind.Utc"/>.
     /// </summary>
-    public static DateTime UtcNow => MonotonicClockOffset.UtcNow.DateTime;
+    public static DateTime UtcNow => MonotonicClockOffset.UtcNow.UtcDateTime;
 }

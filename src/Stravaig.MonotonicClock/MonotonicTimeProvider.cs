@@ -147,7 +147,7 @@ public class MonotonicTimeProvider : TimeProvider
     /// Gets the interval the clock moves forward by when the underlying time provider does
     /// not move forward by at least that much.
     /// </summary>
-    public TimeSpan Resolution => new TimeSpan(_resolutionTicks);
+    public TimeSpan Resolution => new(_resolutionTicks);
 
     /// <inheritdoc/>
     public override TimeZoneInfo LocalTimeZone => _innerTimeProvider.LocalTimeZone;
