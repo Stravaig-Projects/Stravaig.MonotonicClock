@@ -8,6 +8,8 @@
 
     <IsPackable>false</IsPackable>
     <IsTestProject>true</IsTestProject>
+    <!-- Directory.Build.props enables this for the packable projects; tests do not need a doc file. -->
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
 
     <!-- CA1707: test names use underscores to separate subject, scenario, and expectation.
          SA0001: XML comment analysis needs a documentation file, which tests do not produce. -->
