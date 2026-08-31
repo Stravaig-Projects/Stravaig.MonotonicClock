@@ -34,6 +34,11 @@ namespace Stravaig.MonotonicClock;
 public class MonotonicTimeProvider : TimeProvider
 {
     /// <summary>
+    /// The default instance of <see cref="MonotonicTimeProvider"/>.
+    /// </summary>
+    public static readonly MonotonicTimeProvider Instance = new();
+
+    /// <summary>
     /// The resolution, in ticks, used when no resolution is supplied. A single tick, which
     /// is the finest movement a <see cref="DateTimeOffset"/> can represent.
     /// </summary>
@@ -119,7 +124,14 @@ public class MonotonicTimeProvider : TimeProvider
                 "The resolution must be at least one tick.");
         }
 
+#if NETSTANDARD2_0
+        if (innerTimeProvider == null!)
+        {
+            throw new ArgumentNullException(nameof(innerTimeProvider));
+        }
+#else
         ArgumentNullException.ThrowIfNull(innerTimeProvider);
+#endif
 
         _resolutionTicks = resolutionTicks;
         _innerTimeProvider = innerTimeProvider;

@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <TargetFrameworks>net8.0;net9.0;net10.0</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;net8.0;net9.0;net10.0</TargetFrameworks>
     <Title>Stravaig Monotonic Clock</Title>
     <Authors>Colin Angus Mackay</Authors>
     <Copyright>©$(StravaigCopyrightYear) Stravaig Projects. See licence for more information.</Copyright>
@@ -17,9 +17,9 @@
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <RepositoryUrl>https://github.com/$(GITHUB_REPOSITORY)</RepositoryUrl>
     <PackageIcon>stravaig-icon.png</PackageIcon>
-    <PackageTags>clock time monotonic stopwatch</PackageTags>
+    <PackageTags>clock time monotonic</PackageTags>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <Description>A monotonic clock abstraction for elapsed-time measurement.
+    <Description>A monotonic clock for time measurement.
 
     Built on $(StravaigBuildTime).
     Build run details at: $(StravaigWorkflowUrl)
@@ -32,6 +32,10 @@
 
   <ItemGroup>
     <None Include="stravaig-icon.png" Pack="true" PackagePath="/" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
+    <PackageReference Include="Microsoft.Bcl.TimeProvider" Version="10.0.11" />
   </ItemGroup>
 
 </Project>

@@ -1,3 +1,5 @@
+using Shouldly;
+
 namespace Stravaig.MonotonicClock.Tests;
 
 public class MonotonicTimeProviderTests
@@ -10,26 +12,26 @@ public class MonotonicTimeProviderTests
     [InlineData(long.MinValue)]
     public void Constructor_WithResolutionOfLessThanOneTick_Throws(long resolutionTicks)
     {
-        var exception = Assert.Throws<ArgumentOutOfRangeException>(
+        var exception = Should.Throw<ArgumentOutOfRangeException>(
             () => new MonotonicTimeProvider(resolutionTicks));
 
-        Assert.Equal("resolutionTicks", exception.ParamName);
+        exception.ParamName.ShouldBe("resolutionTicks");
     }
 
     [Fact]
     public void Constructor_WithResolutionOfLessThanOneTickAsTimeSpan_Throws()
     {
-        Assert.Throws<ArgumentOutOfRangeException>(
+        Should.Throw<ArgumentOutOfRangeException>(
             () => new MonotonicTimeProvider(TimeSpan.Zero));
     }
 
     [Fact]
     public void Constructor_WithNullInnerTimeProvider_Throws()
     {
-        var exception = Assert.Throws<ArgumentNullException>(
+        var exception = Should.Throw<ArgumentNullException>(
             () => new MonotonicTimeProvider(1L, null!));
 
-        Assert.Equal("innerTimeProvider", exception.ParamName);
+        exception.ParamName.ShouldBe("innerTimeProvider");
     }
 
     [Fact]
@@ -37,8 +39,8 @@ public class MonotonicTimeProviderTests
     {
         var provider = new MonotonicTimeProvider();
 
-        Assert.Equal(1L, provider.ResolutionTicks);
-        Assert.Equal(TimeSpan.FromTicks(1L), provider.Resolution);
+        provider.ResolutionTicks.ShouldBe(1L);
+        provider.Resolution.ShouldBe(TimeSpan.FromTicks(1L));
     }
 
     [Fact]
@@ -46,8 +48,8 @@ public class MonotonicTimeProviderTests
     {
         var provider = new MonotonicTimeProvider(TimeSpan.FromMilliseconds(5));
 
-        Assert.Equal(5L * TimeSpan.TicksPerMillisecond, provider.ResolutionTicks);
-        Assert.Equal(TimeSpan.FromMilliseconds(5), provider.Resolution);
+        provider.ResolutionTicks.ShouldBe(5L * TimeSpan.TicksPerMillisecond);
+        provider.Resolution.ShouldBe(TimeSpan.FromMilliseconds(5));
     }
 
     [Theory]
@@ -60,7 +62,7 @@ public class MonotonicTimeProviderTests
 
         var actual = provider.GetUtcNow();
 
-        Assert.Equal(BaseTime.UtcTicks, actual.UtcTicks);
+        actual.UtcTicks.ShouldBe(BaseTime.UtcTicks);
     }
 
     [Fact]
@@ -72,8 +74,8 @@ public class MonotonicTimeProviderTests
 
         var actual = provider.GetUtcNow();
 
-        Assert.Equal(TimeSpan.Zero, actual.Offset);
-        Assert.Equal(BaseTime.UtcTicks, actual.UtcTicks);
+        actual.Offset.ShouldBe(TimeSpan.Zero);
+        actual.UtcTicks.ShouldBe(BaseTime.UtcTicks);
     }
 
     [Theory]
@@ -95,7 +97,7 @@ public class MonotonicTimeProviderTests
 
         for (int i = 0; i < iterations; i++)
         {
-            Assert.Equal(BaseTime.UtcTicks + (i * resolutionTicks), actual[i]);
+            actual[i].ShouldBe(BaseTime.UtcTicks + (i * resolutionTicks));
         }
     }
 
@@ -110,9 +112,9 @@ public class MonotonicTimeProviderTests
         long second = provider.GetUtcNow().UtcTicks;
         long third = provider.GetUtcNow().UtcTicks;
 
-        Assert.Equal(BaseTime.UtcTicks, first);
-        Assert.Equal(BaseTime.UtcTicks + resolutionTicks, second);
-        Assert.Equal(BaseTime.UtcTicks + (2 * resolutionTicks), third);
+        first.ShouldBe(BaseTime.UtcTicks);
+        second.ShouldBe(BaseTime.UtcTicks + resolutionTicks);
+        third.ShouldBe(BaseTime.UtcTicks + (2 * resolutionTicks));
     }
 
     [Fact]
@@ -126,9 +128,9 @@ public class MonotonicTimeProviderTests
         long second = provider.GetUtcNow().UtcTicks;
         long third = provider.GetUtcNow().UtcTicks;
 
-        Assert.Equal(BaseTime.UtcTicks, first);
-        Assert.Equal(BaseTime.UtcTicks + 25_000L, second);
-        Assert.Equal(BaseTime.UtcTicks + 50_000L, third);
+        first.ShouldBe(BaseTime.UtcTicks);
+        second.ShouldBe(BaseTime.UtcTicks + 25_000L);
+        third.ShouldBe(BaseTime.UtcTicks + 50_000L);
     }
 
     [Fact]
@@ -145,7 +147,7 @@ public class MonotonicTimeProviderTests
         for (int i = 0; i < iterations; i++)
         {
             long actual = provider.GetUtcNow().UtcTicks;
-            Assert.Equal(BaseTime.UtcTicks + (i * resolutionTicks), actual);
+            actual.ShouldBe(BaseTime.UtcTicks + (i * resolutionTicks));
         }
     }
 
@@ -163,16 +165,16 @@ public class MonotonicTimeProviderTests
             actual[i] = provider.GetUtcNow().UtcTicks;
         }
 
-        Assert.Equal(BaseTime.UtcTicks, actual[0]);
-        Assert.Equal(BaseTime.UtcTicks + 1_000L, actual[1]);
-        Assert.Equal(BaseTime.UtcTicks + 2_000L, actual[2]);
+        actual[0].ShouldBe(BaseTime.UtcTicks);
+        actual[1].ShouldBe(BaseTime.UtcTicks + 1_000L);
+        actual[2].ShouldBe(BaseTime.UtcTicks + 2_000L);
 
         // The underlying clock has moved, but not past the last issued value, so the
         // synthesised value still wins.
-        Assert.Equal(BaseTime.UtcTicks + 3_000L, actual[3]);
+        actual[3].ShouldBe(BaseTime.UtcTicks + 3_000L);
 
         // Now it has moved past, so the real reading is used and nothing is synthesised.
-        Assert.Equal(BaseTime.UtcTicks + 10_000L, actual[4]);
+        actual[4].ShouldBe(BaseTime.UtcTicks + 10_000L);
     }
 
     [Fact]
@@ -187,7 +189,7 @@ public class MonotonicTimeProviderTests
             provider.GetUtcNow();
         }
 
-        Assert.Equal(iterations, stub.CallCount);
+        stub.CallCount.ShouldBe(iterations);
     }
 
     [Fact]
@@ -204,12 +206,12 @@ public class MonotonicTimeProviderTests
 
         for (int i = 1; i < iterations; i++)
         {
-            Assert.True(
-                times[i] > times[i - 1],
+            times[i].ShouldBeGreaterThan(
+                times[i - 1],
                 $"Time at index {i} ({times[i]:O}) is not later than the time at index {i - 1} ({times[i - 1]:O}).");
         }
 
-        Assert.Equal(iterations, times.Distinct().Count());
+        times.Distinct().Count().ShouldBe(iterations);
     }
 
     [Fact]
@@ -226,7 +228,9 @@ public class MonotonicTimeProviderTests
 
         for (int i = 1; i < iterations; i++)
         {
-            Assert.True(times[i] > times[i - 1], $"Local time at index {i} is not later than at index {i - 1}.");
+            times[i].ShouldBeGreaterThan(
+                times[i - 1],
+                $"Local time at index {i} is not later than at index {i - 1}.");
         }
     }
 
@@ -235,12 +239,12 @@ public class MonotonicTimeProviderTests
     {
         var provider = new MonotonicTimeProvider(1L, TimeProvider.System);
 
-        Assert.Equal(TimeProvider.System.LocalTimeZone, provider.LocalTimeZone);
-        Assert.Equal(TimeProvider.System.TimestampFrequency, provider.TimestampFrequency);
+        provider.LocalTimeZone.ShouldBe(TimeProvider.System.LocalTimeZone);
+        provider.TimestampFrequency.ShouldBe(TimeProvider.System.TimestampFrequency);
 
         long first = provider.GetTimestamp();
         long second = provider.GetTimestamp();
-        Assert.True(second >= first);
+        second.ShouldBeGreaterThanOrEqualTo(first);
     }
 
     [Fact]
@@ -252,6 +256,23 @@ public class MonotonicTimeProviderTests
         first.GetUtcNow();
         first.GetUtcNow();
 
-        Assert.Equal(BaseTime.UtcTicks, second.GetUtcNow().UtcTicks);
+        second.GetUtcNow().UtcTicks.ShouldBe(BaseTime.UtcTicks);
+    }
+
+    [Fact]
+    public void ManyIterationsAreAscendingOnly()
+    {
+        const int iterations = 10_000_000;
+        DateTimeOffset[] times = new DateTimeOffset[iterations];
+        var provider = new MonotonicTimeProvider();
+        for (int i = 0; i < iterations; i++)
+        {
+            times[i] = provider.GetUtcNow();
+        }
+
+        for (int i = 1; i < iterations; i++)
+        {
+            times[i].ShouldBeGreaterThan(times[i - 1]);
+        }
     }
 }

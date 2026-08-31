@@ -1,3 +1,5 @@
+using Shouldly;
+
 namespace Stravaig.MonotonicClock.Tests;
 
 public class MonotonicTimeProviderConcurrencyTests
@@ -34,10 +36,10 @@ public class MonotonicTimeProviderConcurrencyTests
         // whole set, however it was interleaved, must be exactly one arithmetic sequence
         // of the configured resolution with no value issued twice.
         long[] all = perThread.SelectMany(t => t).OrderBy(t => t).ToArray();
-        Assert.Equal(ThreadCount * iterationsPerThread, all.Length);
+        all.Length.ShouldBe(ThreadCount * iterationsPerThread);
         for (int i = 0; i < all.Length; i++)
         {
-            Assert.Equal(BaseTime.UtcTicks + (i * resolutionTicks), all[i]);
+            all[i].ShouldBe(BaseTime.UtcTicks + (i * resolutionTicks));
         }
     }
 
@@ -64,7 +66,7 @@ public class MonotonicTimeProviderConcurrencyTests
 
         RunConcurrently(provider, iterationsPerThread);
 
-        Assert.Equal(ThreadCount * iterationsPerThread, stub.CallCount);
+        stub.CallCount.ShouldBe(ThreadCount * iterationsPerThread);
     }
 
     private static long[][] RunConcurrently(MonotonicTimeProvider provider, int iterationsPerThread)
@@ -98,7 +100,8 @@ public class MonotonicTimeProviderConcurrencyTests
 
         foreach (var thread in threads)
         {
-            Assert.True(thread.Join(TimeSpan.FromMinutes(1)), "A worker thread did not complete in time.");
+            thread.Join(TimeSpan.FromMinutes(1))
+                .ShouldBeTrue("A worker thread did not complete in time.");
         }
 
         return results;
@@ -111,8 +114,8 @@ public class MonotonicTimeProviderConcurrencyTests
             long[] times = perThread[t];
             for (int i = 1; i < times.Length; i++)
             {
-                Assert.True(
-                    times[i] > times[i - 1],
+                times[i].ShouldBeGreaterThan(
+                    times[i - 1],
                     $"Thread {t} saw {times[i]} at index {i}, which is not later than {times[i - 1]} at index {i - 1}.");
             }
         }
@@ -125,11 +128,11 @@ public class MonotonicTimeProviderConcurrencyTests
         for (int i = 1; i < all.Length; i++)
         {
             long gap = all[i] - all[i - 1];
-            Assert.True(
-                gap >= resolutionTicks,
+            gap.ShouldBeGreaterThanOrEqualTo(
+                resolutionTicks,
                 $"Consecutive timestamps {all[i - 1]} and {all[i]} are {gap} ticks apart, which is less than the {resolutionTicks} tick resolution.");
         }
 
-        Assert.Equal(all.Length, all.Distinct().Count());
+        all.Distinct().Count().ShouldBe(all.Length);
     }
 }
