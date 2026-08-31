@@ -134,14 +134,14 @@ jobs:
         shell: pwsh
         run: Get-Content ./packages/version-info.env | Out-File -FilePath $env:GITHUB_ENV -Encoding UTF8 -Append
 
-      - name: Push package to NuGet
-        shell: pwsh
-        run: |
-          Get-ChildItem ./packages/preview/*.nupkg | ForEach-Object {
-            $name = $_.FullName;
-            Write-Output "Pushing $name";
-            dotnet nuget push "$name" --api-key ${{ secrets.STRAVAIG_NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
-          }
+#      - name: Push package to NuGet
+#        shell: pwsh
+#        run: |
+#          Get-ChildItem ./packages/preview/*.nupkg | ForEach-Object {
+#            $name = $_.FullName;
+#            Write-Output "Pushing $name";
+#            dotnet nuget push "$name" --api-key ${{ secrets.STRAVAIG_NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
+#          }
 
       - name: Create Release
         shell: pwsh
@@ -188,14 +188,14 @@ jobs:
           name: release-information
           path: ./release-information
 
-      - name: Push package to NuGet
-        shell: pwsh
-        run: |
-          Get-ChildItem ./packages/stable/*.nupkg | ForEach-Object {
-            $name = $_.FullName;
-            Write-Output "Pushing $name";
-            dotnet nuget push "$name" --api-key ${{ secrets.STRAVAIG_NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
-          }
+#      - name: Push package to NuGet
+#        shell: pwsh
+#        run: |
+#          Get-ChildItem ./packages/stable/*.nupkg | ForEach-Object {
+#            $name = $_.FullName;
+#            Write-Output "Pushing $name";
+#            dotnet nuget push "$name" --api-key ${{ secrets.STRAVAIG_NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
+#          }
 
       - name: Create Release
         shell: pwsh

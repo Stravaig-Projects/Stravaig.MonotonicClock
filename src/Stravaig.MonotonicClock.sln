@@ -12,6 +12,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "__BuildAndDeploy", "__Build
 		..\Reset-WipReleaseNotes.ps1 = ..\Reset-WipReleaseNotes.ps1
 		..\Set-Version.ps1 = ..\Set-Version.ps1
 		..\version.txt = ..\version.txt
+		Directory.Build.props = Directory.Build.props
+		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "__Documentation", "__Documentation", "{61C05782-A253-4EDD-9463-04912EB73870}"

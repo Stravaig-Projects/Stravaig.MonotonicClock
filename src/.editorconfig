@@ -162,6 +162,7 @@ dotnet_diagnostic.sa1309.severity = none
 # SX1309/SX1309S: instead REQUIRE the underscore prefix on instance and static fields
 dotnet_diagnostic.sx1309.severity = warning
 dotnet_diagnostic.sx1309s.severity = warning
+dotnet_diagnostic.sa1633.severity = none # SA1633: Do NOT requrire a file header.
 
 ###############################
 # C# Coding Conventions       #
