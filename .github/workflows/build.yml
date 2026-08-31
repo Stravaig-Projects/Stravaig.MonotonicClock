@@ -135,7 +135,7 @@ jobs:
         shell: pwsh
         run: Get-Content ./packages/version-info.env | Out-File -FilePath $env:GITHUB_ENV -Encoding UTF8 -Append
 
-#      - name: Push package to NuGet
+#      - name: Push preview packages to NuGet
 #        shell: pwsh
 #        run: |
 #          Get-ChildItem ./packages/preview/*.nupkg | ForEach-Object {
@@ -144,7 +144,7 @@ jobs:
 #            dotnet nuget push "$name" --api-key ${{ secrets.STRAVAIG_NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
 #          }
 
-      - name: Create Release
+      - name: Create Preview Release
         shell: pwsh
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -153,8 +153,8 @@ jobs:
           Copy-Item -Path ./release-information/release-notes/full-release-notes.md -Destination ./release-notes/full-release-notes.md -Force
           Copy-Item -Path ./release-information/release-notes/release-notes-${{ env.STRAVAIG_PACKAGE_VERSION }}.md -Destination ./release-notes/release-notes-${{ env.STRAVAIG_PACKAGE_VERSION }}.md -Force
           $assets = @();
-          $assets += "./packages/stable/*.nupkg"
-          $assets += "./packages/stable/*.snupkg"
+          $assets += "./packages/preview/*.nupkg"
+          $assets += "./packages/preview/*.snupkg"
           $assets += "LICENSE"
           $assets += "contributors.md"
           $assets += "README.md"
