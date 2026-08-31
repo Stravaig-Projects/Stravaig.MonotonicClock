@@ -4,13 +4,6 @@
 
 Date: ???
 
-### Bugs
-
 ### Features
 
-### Miscellaneous
-
-### Dependabot
-
-
-
+- Initial release

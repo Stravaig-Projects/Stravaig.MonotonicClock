@@ -74,11 +74,13 @@ jobs:
         run: |
           export STRAVAIG_NUGET_VERSION=$STRAVAIG_PREVIEW_VERSION
           dotnet pack ./src/Stravaig.MonotonicClock/Stravaig.MonotonicClock.csproj --configuration Release --output ./out/preview --include-symbols --include-source /p:VersionPrefix="$STRAVAIG_PACKAGE_VERSION" --version-suffix "$STRAVAIG_PACKAGE_VERSION_SUFFIX" -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg /p:AssemblyVersion=$STRAVAIG_PREVIEW_ASSEMBLY_VERSION /p:FileVersion=$STRAVAIG_PREVIEW_ASSEMBLY_VERSION
+          dotnet pack ./src/Stravaig.MonotonicClock.DependencyInjection/Stravaig.MonotonicClock.DependencyInjection.csproj --configuration Release --output ./out/preview --include-symbols --include-source /p:VersionPrefix="$STRAVAIG_PACKAGE_VERSION" --version-suffix "$STRAVAIG_PACKAGE_VERSION_SUFFIX" -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg /p:AssemblyVersion=$STRAVAIG_PREVIEW_ASSEMBLY_VERSION /p:FileVersion=$STRAVAIG_PREVIEW_ASSEMBLY_VERSION
 
       - name: Package Stable Release
         run: |
           export STRAVAIG_NUGET_VERSION=$STRAVAIG_STABLE_VERSION
           dotnet pack ./src/Stravaig.MonotonicClock/Stravaig.MonotonicClock.csproj --configuration Release --output ./out/stable --include-symbols --include-source /p:VersionPrefix="$STRAVAIG_PACKAGE_VERSION" -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg /p:AssemblyVersion=$STRAVAIG_ASSEMBLY_VERSION /p:FileVersion=$STRAVAIG_ASSEMBLY_VERSION
+          dotnet pack ./src/Stravaig.MonotonicClock.DependencyInjection/Stravaig.MonotonicClock.DependencyInjection.csproj --configuration Release --output ./out/stable --include-symbols --include-source /p:VersionPrefix="$STRAVAIG_PACKAGE_VERSION" -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg /p:AssemblyVersion=$STRAVAIG_ASSEMBLY_VERSION /p:FileVersion=$STRAVAIG_ASSEMBLY_VERSION
 
       - name: Archive Packages
         uses: actions/upload-artifact@v6

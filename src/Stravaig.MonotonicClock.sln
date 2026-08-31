@@ -28,6 +28,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stravaig.MonotonicClock", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stravaig.MonotonicClock.Tests", "Stravaig.MonotonicClock.Tests\Stravaig.MonotonicClock.Tests.csproj", "{A8894D4D-EF5E-41F8-9B56-FFD55DEFA6E9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stravaig.MonotonicClock.DependencyInjection", "Stravaig.MonotonicClock.DependencyInjection\Stravaig.MonotonicClock.DependencyInjection.csproj", "{39BF0DDA-CCB5-494C-99EA-C7E420C3B18F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -62,6 +64,18 @@ Global
 		{A8894D4D-EF5E-41F8-9B56-FFD55DEFA6E9}.Release|x64.Build.0 = Release|Any CPU
 		{A8894D4D-EF5E-41F8-9B56-FFD55DEFA6E9}.Release|x86.ActiveCfg = Release|Any CPU
 		{A8894D4D-EF5E-41F8-9B56-FFD55DEFA6E9}.Release|x86.Build.0 = Release|Any CPU
+		{39BF0DDA-CCB5-494C-99EA-C7E420C3B18F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{39BF0DDA-CCB5-494C-99EA-C7E420C3B18F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{39BF0DDA-CCB5-494C-99EA-C7E420C3B18F}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{39BF0DDA-CCB5-494C-99EA-C7E420C3B18F}.Debug|x64.Build.0 = Debug|Any CPU
+		{39BF0DDA-CCB5-494C-99EA-C7E420C3B18F}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{39BF0DDA-CCB5-494C-99EA-C7E420C3B18F}.Debug|x86.Build.0 = Debug|Any CPU
+		{39BF0DDA-CCB5-494C-99EA-C7E420C3B18F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{39BF0DDA-CCB5-494C-99EA-C7E420C3B18F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{39BF0DDA-CCB5-494C-99EA-C7E420C3B18F}.Release|x64.ActiveCfg = Release|Any CPU
+		{39BF0DDA-CCB5-494C-99EA-C7E420C3B18F}.Release|x64.Build.0 = Release|Any CPU
+		{39BF0DDA-CCB5-494C-99EA-C7E420C3B18F}.Release|x86.ActiveCfg = Release|Any CPU
+		{39BF0DDA-CCB5-494C-99EA-C7E420C3B18F}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

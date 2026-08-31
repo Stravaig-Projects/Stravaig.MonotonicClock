@@ -2,6 +2,9 @@
 
 namespace Stravaig.MonotonicClock;
 
+/// <summary>
+/// A helper class for getting the DateTimeOffset from the monotonic clock.
+/// </summary>
 public static class MonotonicClockOffset
 {
     /// <summary>

@@ -1,0 +1,56 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <StravaigBuildTime>$([System.DateTime]::Now.ToString("dddd, d MMMM yyyy 'at' HH:mm:ss zzzz"))</StravaigBuildTime>
+        <StravaigCopyrightYear>$([System.DateTime]::Now.ToString("yyyy"))</StravaigCopyrightYear>
+        <StravaigGitHubCommit>$(GITHUB_SHA)</StravaigGitHubCommit>
+        <StravaigWorkflowUrl>$(GITHUB_SERVER_URL)/$(GITHUB_REPOSITORY)/actions/runs/$(GITHUB_RUN_ID)</StravaigWorkflowUrl>
+        <StravaigReleaseNotes>https://github.com/$(GITHUB_REPOSITORY)/releases/tag/$(STRAVAIG_RELEASE_TAG)</StravaigReleaseNotes>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <TargetFrameworks>netstandard2.0;net8.0;net9.0;net10.0</TargetFrameworks>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <LangVersion>14</LangVersion>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <Title>Stravaig Monotonic Clock - Dependency Injection</Title>
+        <Authors>Colin Angus Mackay</Authors>
+        <Copyright>©$(StravaigCopyrightYear) Stravaig Projects. See licence for more information.</Copyright>
+        <PackageProjectUrl>https://github.com/$(GITHUB_REPOSITORY)/blob/$(StravaigGitHubCommit)/README.md</PackageProjectUrl>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <RepositoryUrl>https://github.com/$(GITHUB_REPOSITORY)</RepositoryUrl>
+        <PackageIcon>stravaig-icon.png</PackageIcon>
+        <PackageTags>clock time monotonic dependency-injection di</PackageTags>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <Description>Dependency injection extensions for registering the Stravaig monotonic clock as a TimeProvider.
+
+    Built on $(StravaigBuildTime).
+    Build run details at: $(StravaigWorkflowUrl)
+    Release notes at: $(StravaigReleaseNotes)
+    </Description>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <None Include="..\Stravaig.MonotonicClock\stravaig-icon.png" Pack="true" PackagePath="/" />
+    </ItemGroup>
+
+    <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0' Or '$(TargetFramework)' == 'net8.0'">
+      <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.2" />
+    </ItemGroup>
+
+    <ItemGroup Condition="'$(TargetFramework)' == 'net9.0'">
+      <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.19" />
+    </ItemGroup>
+
+    <ItemGroup Condition="'$(TargetFramework)' == 'net10.0'">
+      <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.11" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Stravaig.MonotonicClock\Stravaig.MonotonicClock.csproj" />
+    </ItemGroup>
+
+</Project>
