@@ -31,13 +31,8 @@ namespace Stravaig.MonotonicClock;
 /// backwards where a time zone's offset does, such as at the end of daylight saving time.
 /// </para>
 /// </remarks>
-public class MonotonicTimeProvider : TimeProvider
+public sealed class MonotonicTimeProvider : TimeProvider
 {
-    /// <summary>
-    /// The default instance of <see cref="MonotonicTimeProvider"/>.
-    /// </summary>
-    public static readonly MonotonicTimeProvider Instance = new();
-
     /// <summary>
     /// The resolution, in ticks, used when no resolution is supplied. A single tick, which
     /// is the finest movement a <see cref="DateTimeOffset"/> can represent.
@@ -94,7 +89,7 @@ public class MonotonicTimeProvider : TimeProvider
     /// <paramref name="resolution"/> is less than one tick.
     /// </exception>
     public MonotonicTimeProvider(TimeSpan resolution)
-        : this(resolution.Ticks, TimeProvider.System)
+        : this(ResolutionAsTicks(resolution), TimeProvider.System)
     {
     }
 
@@ -116,13 +111,7 @@ public class MonotonicTimeProvider : TimeProvider
     /// </exception>
     public MonotonicTimeProvider(long resolutionTicks, TimeProvider innerTimeProvider)
     {
-        if (resolutionTicks < 1L)
-        {
-            throw new ArgumentOutOfRangeException(
-                nameof(resolutionTicks),
-                resolutionTicks,
-                "The resolution must be at least one tick.");
-        }
+        EnsureMinimumResolution(resolutionTicks, nameof(resolutionTicks));
 
 #if NETSTANDARD2_0
         if (innerTimeProvider == null!)
@@ -136,6 +125,11 @@ public class MonotonicTimeProvider : TimeProvider
         _resolutionTicks = resolutionTicks;
         _innerTimeProvider = innerTimeProvider;
     }
+
+    /// <summary>
+    /// Gets the default instance of <see cref="MonotonicTimeProvider"/>.
+    /// </summary>
+    public static MonotonicTimeProvider Instance { get; } = new();
 
     /// <summary>
     /// Gets the number of ticks the clock moves forward by when the underlying time provider
@@ -163,6 +157,8 @@ public class MonotonicTimeProvider : TimeProvider
     /// The underlying time provider's current UTC time, or the previously returned value
     /// advanced by <see cref="ResolutionTicks"/>, whichever is the later.
     /// </returns>
+    /// <remarks>The guarantee is that the returned value will not move backward does not hold when the time rolls over
+    /// after DateTimeOffset.MaxValue (which is 31st December 9999 at 23:59:59).</remarks>
     public override DateTimeOffset GetUtcNow()
     {
         long ticks;
@@ -189,4 +185,22 @@ public class MonotonicTimeProvider : TimeProvider
     /// <inheritdoc/>
     public override ITimer CreateTimer(TimerCallback callback, object? state, TimeSpan dueTime, TimeSpan period)
         => _innerTimeProvider.CreateTimer(callback, state, dueTime, period);
+
+    private static long ResolutionAsTicks(TimeSpan resolution)
+    {
+        var resolutionTicks = resolution.Ticks;
+        EnsureMinimumResolution(resolutionTicks, nameof(resolution));
+        return resolutionTicks;
+    }
+
+    private static void EnsureMinimumResolution(long resolutionTicks, string parameterName)
+    {
+        if (resolutionTicks < 1L)
+        {
+            throw new ArgumentOutOfRangeException(
+                parameterName,
+                resolutionTicks,
+                "The resolution must be at least one tick.");
+        }
+    }
 }

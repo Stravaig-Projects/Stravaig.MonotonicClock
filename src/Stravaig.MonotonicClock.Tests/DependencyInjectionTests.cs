@@ -1,6 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
 using Shouldly;
-using Stravaig.MonotonicClock.DependencyInjection;
 
 namespace Stravaig.MonotonicClock.Tests;
 

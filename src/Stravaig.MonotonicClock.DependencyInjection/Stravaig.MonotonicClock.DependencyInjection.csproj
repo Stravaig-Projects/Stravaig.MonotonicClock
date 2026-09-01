@@ -10,6 +10,7 @@ Built on $(StravaigBuildTime).
 Build run details at: $(StravaigWorkflowUrl)
 Release notes at: $(StravaigReleaseNotes)
       </Description>
+      <rootnamespace>Stravaig.MonotonicClock</rootnamespace>
     </PropertyGroup>
 
     <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0' Or '$(TargetFramework)' == 'net8.0'">
