@@ -21,6 +21,28 @@ public class DependencyInjectionTests
     }
 
     [Fact]
+    public void EnsureThatAddMonotonicClockAlwaysResolvesTheSameInstance()
+    {
+        // Arrange
+        var serviceCollection = new ServiceCollection();
+        serviceCollection.AddMonotonicClock();
+        var serviceProvider = serviceCollection.BuildServiceProvider();
+
+        // Act
+        var resolution1 = serviceProvider.GetRequiredService<TimeProvider>();
+        var resolution2 = serviceProvider.GetRequiredService<TimeProvider>();
+        using var scope = serviceProvider.CreateScope();
+        var resolution3 = scope.ServiceProvider.GetRequiredService<TimeProvider>();
+
+        // Assert
+        resolution1.ShouldNotBeNull();
+        resolution2.ShouldNotBeNull();
+        resolution1.ShouldBeSameAs(resolution2);
+        resolution3.ShouldNotBeNull();
+        resolution3.ShouldBeSameAs(resolution1);
+    }
+
+    [Fact]
     public void EnsureThatTheKeyedMonotonicTimeProviderIsRegistered()
     {
         // Arrange
@@ -35,6 +57,28 @@ public class DependencyInjectionTests
         // Assert
         timeProvider.ShouldBeOfType<MonotonicTimeProvider>();
         notATimeProvider.ShouldBeNull();
+    }
+
+    [Fact]
+    public void EnsureThatAddKeyedMonotonicClockAlwaysResolvesTheSameInstance()
+    {
+        // Arrange
+        var serviceCollection = new ServiceCollection();
+        serviceCollection.AddKeyedMonotonicClock("my-key");
+        var serviceProvider = serviceCollection.BuildServiceProvider();
+
+        // Act
+        var resolution1 = serviceProvider.GetRequiredKeyedService<TimeProvider>("my-key");
+        var resolution2 = serviceProvider.GetRequiredKeyedService<TimeProvider>("my-key");
+        using var scope = serviceProvider.CreateScope();
+        var resolution3 = scope.ServiceProvider.GetRequiredKeyedService<TimeProvider>("my-key");
+
+        // Assert
+        resolution1.ShouldNotBeNull();
+        resolution2.ShouldNotBeNull();
+        resolution1.ShouldBeSameAs(resolution2);
+        resolution3.ShouldNotBeNull();
+        resolution3.ShouldBeSameAs(resolution1);
     }
 
     [Fact]
@@ -65,6 +109,28 @@ public class DependencyInjectionTests
         timeProvider.ShouldNotBeNull();
         timeProvider.ShouldNotBeOfType<MonotonicTimeProvider>();
         timeProvider.GetType().Name.ShouldBe("SystemTimeProvider");
+    }
+
+    [Fact]
+    public void EnsureThatTryAddMonotonicClockAlwaysResolvesTheSameInstance()
+    {
+        // Arrange
+        var serviceCollection = new ServiceCollection();
+        serviceCollection.TryAddMonotonicClock();
+        var serviceProvider = serviceCollection.BuildServiceProvider();
+
+        // Act
+        var resolution1 = serviceProvider.GetRequiredService<TimeProvider>();
+        var resolution2 = serviceProvider.GetRequiredService<TimeProvider>();
+        using var scope = serviceProvider.CreateScope();
+        var resolution3 = scope.ServiceProvider.GetRequiredService<TimeProvider>();
+
+        // Assert
+        resolution1.ShouldNotBeNull();
+        resolution2.ShouldNotBeNull();
+        resolution1.ShouldBeSameAs(resolution2);
+        resolution3.ShouldNotBeNull();
+        resolution3.ShouldBeSameAs(resolution1);
     }
 
     [Fact]

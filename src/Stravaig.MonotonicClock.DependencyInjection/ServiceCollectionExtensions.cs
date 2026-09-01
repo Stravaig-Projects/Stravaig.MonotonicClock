@@ -29,7 +29,7 @@ public static class ServiceCollectionExtensions
     /// <returns>The <see cref="IServiceCollection"/> to allow chained calls.</returns>
     public static IServiceCollection AddMonotonicClock(this IServiceCollection services)
     {
-        var timeProviderDescriptor = new ServiceDescriptor(typeof(TimeProvider), _ => MonotonicTimeProvider.Instance, ServiceLifetime.Singleton);
+        var timeProviderDescriptor = new ServiceDescriptor(typeof(TimeProvider), MonotonicTimeProvider.Instance);
         services.Replace(timeProviderDescriptor);
         return services;
     }
