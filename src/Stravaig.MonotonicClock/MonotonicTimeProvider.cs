@@ -43,11 +43,6 @@ public sealed class MonotonicTimeProvider : TimeProvider
 
     private readonly TimeProvider _innerTimeProvider;
     private readonly long _resolutionTicks;
-#if NET9_0_OR_GREATER
-    private readonly Lock _syncLock = new();
-#else
-    private readonly object _syncLock = new();
-#endif
 
     private long _lastUtcTicks;
 
@@ -121,7 +116,6 @@ public sealed class MonotonicTimeProvider : TimeProvider
 #else
         ArgumentNullException.ThrowIfNull(innerTimeProvider);
 #endif
-
         _resolutionTicks = resolutionTicks;
         _innerTimeProvider = innerTimeProvider;
     }
@@ -161,23 +155,37 @@ public sealed class MonotonicTimeProvider : TimeProvider
     /// after DateTimeOffset.MaxValue (which is 31st December 9999 at 23:59:59).</remarks>
     public override DateTimeOffset GetUtcNow()
     {
-        long ticks;
-        lock (_syncLock)
-        {
-            long nowTicks = _innerTimeProvider.GetUtcNow().UtcTicks;
+      long nowTicks = _innerTimeProvider.GetUtcNow().UtcTicks;
 
-            // Saturate rather than overflow. Only reachable at the very end of the
-            // representable range, where there is nowhere left to move forward to.
-            long earliestPermittedTicks = _lastUtcTicks <= _maxTicks - _resolutionTicks
-                ? _lastUtcTicks + _resolutionTicks
-                : _maxTicks;
+      // Snapshot the last issued value. Interlocked.Read gives an atomic read of
+      // the 64-bit field even on a 32-bit runtime (netstandard2.0 target).
+      long lastTicks = Interlocked.Read(ref _lastUtcTicks);
+      long ticks;
+      while (true)
+      {
+          // Saturate rather than overflow. Only reachable at the very end of the
+          // representable range, where there is nowhere left to move forward to.
+          long earliestPermittedTicks = lastTicks <= _maxTicks - _resolutionTicks
+              ? lastTicks + _resolutionTicks
+              : _maxTicks;
+          ticks = Math.Max(earliestPermittedTicks, nowTicks);
 
-            ticks = Math.Max(earliestPermittedTicks, nowTicks);
-            _lastUtcTicks = ticks;
-        }
+          // Publish our value only if no other thread has advanced the clock
+          // since we snapshotted it. CompareExchange returns the field's previous
+          // value; if it still matches our snapshot, our write went in.
+          long observed = Interlocked.CompareExchange(ref _lastUtcTicks, ticks, lastTicks);
+          if (observed == lastTicks)
+          {
+              break;
+          }
 
-        return new DateTimeOffset(ticks, TimeSpan.Zero);
-    }
+          // Another thread won the race. Retry with the value it stored, which
+          // forces us to recompute a strictly greater result.
+          lastTicks = observed;
+      }
+
+      return new DateTimeOffset(ticks, TimeSpan.Zero);
+  }
 
     /// <inheritdoc/>
     public override long GetTimestamp() => _innerTimeProvider.GetTimestamp();

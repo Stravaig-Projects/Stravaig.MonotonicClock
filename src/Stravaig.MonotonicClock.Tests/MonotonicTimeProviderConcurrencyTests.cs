@@ -11,7 +11,7 @@ public class MonotonicTimeProviderConcurrencyTests
     [Fact]
     public void GetUtcNow_OverTheSystemClock_IsStrictlyForwardOnlyAcrossThreads()
     {
-        const int iterationsPerThread = 25_000;
+        const int iterationsPerThread = 250_000;
         var provider = new MonotonicTimeProvider();
 
         long[][] perThread = RunConcurrently(provider, iterationsPerThread);
@@ -23,7 +23,7 @@ public class MonotonicTimeProviderConcurrencyTests
     [Fact]
     public void GetUtcNow_WhenTheUnderlyingClockIsFrozen_ProducesOneUnbrokenSequenceAcrossThreads()
     {
-        const int iterationsPerThread = 5_000;
+        const int iterationsPerThread = 250_000;
         const long resolutionTicks = 1_000L;
 
         var provider = new MonotonicTimeProvider(resolutionTicks, new StubTimeProvider(BaseTime));
@@ -46,7 +46,7 @@ public class MonotonicTimeProviderConcurrencyTests
     [Fact]
     public void GetUtcNow_OverTheSystemClock_AppliesTheResolutionAcrossThreads()
     {
-        const int iterationsPerThread = 500;
+        const int iterationsPerThread = 250_000;
         const long resolutionTicks = TimeSpan.TicksPerMillisecond;
 
         var provider = new MonotonicTimeProvider(resolutionTicks);
@@ -60,7 +60,7 @@ public class MonotonicTimeProviderConcurrencyTests
     [Fact]
     public void GetUtcNow_ReadsTheUnderlyingClockOncePerCallAcrossThreads()
     {
-        const int iterationsPerThread = 2_000;
+        const int iterationsPerThread = 250_000;
         var stub = new StubTimeProvider(BaseTime);
         var provider = new MonotonicTimeProvider(1L, stub);
 
